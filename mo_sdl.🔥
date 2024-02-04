@@ -42,6 +42,8 @@ alias c_SDL_DestroyRenderer = fn(s: Pointer[SDL_Renderer]) -> Int32
 
 alias SDL_WINDOWPOS_UNDEFINED = 0x1FFF0000
 
+alias SDL_WINDOW_SHOWN = 0x00000004
+
 struct SDL:
     var Init: c_SDL_Init
     var CreateWindow: c_SDL_CreateWindow
