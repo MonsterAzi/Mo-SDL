@@ -38,7 +38,6 @@ alias c_SDL_Delay = fn(Int32) -> UInt32
 alias c_SDL_CreateRenderer = fn(Pointer[SDL_Window], Int32, UInt32) -> Pointer[SDL_Renderer]
 alias c_SDL_RenderPresent = fn(s: Pointer[SDL_Renderer]) -> Int32
 alias c_SDL_RenderClear = fn(s: Pointer[SDL_Renderer]) -> Int32
-alias c_SDL_DestroyRenderer = fn(s: Pointer[SDL_Renderer]) -> Int32
 
 alias SDL_WINDOWPOS_UNDEFINED = 0x1FFF0000
 
@@ -53,7 +52,6 @@ struct SDL:
     var Delay: c_SDL_Delay
     var Quit: c_SDL_Quit
     var DestroyWindow: c_SDL_DestroyWindow
-    var DestroyRenderer: c_SDL_DestroyRenderer
 
     fn __init__(inout self):
         print("Creating bindings for SDL")
@@ -69,6 +67,5 @@ struct SDL:
         self.CreateRenderer = SDL.get_function[c_SDL_CreateRenderer]('SDL_CreateRenderer')
         self.RenderPresent = SDL.get_function[c_SDL_RenderPresent]('SDL_RenderPresent')
         self.RenderClear = SDL.get_function[c_SDL_RenderClear]('SDL_RenderClear')
-        self.DestroyRenderer = SDL.get_function[c_SDL_DestroyRenderer]('SDL_DestroyRenderer')
 
         self.Delay = SDL.get_function[c_SDL_Delay]('SDL_Delay')
