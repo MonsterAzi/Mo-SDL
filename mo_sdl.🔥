@@ -38,7 +38,7 @@ alias c_SDL_Delay = fn(Int32) -> UInt32
 alias c_SDL_CreateRenderer = fn(Pointer[SDL_Window], Int32, UInt32) -> Pointer[SDL_Renderer]
 alias c_SDL_RenderPresent = fn(s: Pointer[SDL_Renderer]) -> Int32
 alias c_SDL_RenderClear = fn(s: Pointer[SDL_Renderer]) -> Int32
-alias c_SDL_DestroyRenderer = fn(s: Pointer[SDL_Renderer]) -> None
+alias c_SDL_DestroyRenderer = fn(s: Pointer[SDL_Renderer]) -> Int32
 
 struct SDL:
     var Init: c_SDL_Init
@@ -55,3 +55,16 @@ struct SDL:
         print("Creating bindings for SDL")
         let lib_path = get_sdl_lib_path()
         let SDL = ffi.DLHandle(lib_path)
+
+        self.Init = SDL.get_function[c_SDL_Init]('SDL_Init')
+        self.Quit = SDL.get_function[c_SDL_Quit]('SDL_Quit')
+
+        self.CreateWindow = SDL.get_function[c_SDL_CreateWindow]('SDL_CreateWindow')
+        self.DestroyWindow = SDL.get_function[c_SDL_DestroyWindow]('SDL_DestroyWindow')
+
+        self.CreateRenderer = SDL.get_function[c_SDL_CreateRenderer]('SDL_CreateRenderer')
+        self.RenderPresent = SDL.get_function[c_SDL_RenderPresent]('SDL_RenderPresent')
+        self.RenderClear = SDL.get_function[c_SDL_RenderClear]('SDL_RenderClear')
+        self.DestroyRenderer = SDL.get_function[c_SDL_DestroyRenderer]('SDL_DestroyRenderer')
+
+        self.Delay = SDL.get_function[c_SDL_Delay]('SDL_Delay')
