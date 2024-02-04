@@ -135,6 +135,9 @@ alias c_SDL_DestroyWindow = fn(Pointer[SDL_Window]) -> None
 # SDL_timer.h
 alias c_SDL_Delay = fn(Int32) -> UInt32
 
+# SDL_event.h
+alias c_SDL_PollEvent = fn(Pointer[Event]) -> Int32
+
 # SDL_render.h
 alias c_SDL_CreateRenderer = fn(Pointer[SDL_Window], Int32, UInt32) -> Pointer[SDL_Renderer]
 alias c_SDL_RenderFillRect = fn(r: Pointer[SDL_Renderer], rect: Pointer[SDL_Rect]) -> Int32
@@ -155,6 +158,7 @@ struct SDL:
     var RenderPresent: c_SDL_RenderPresent
     var RenderClear: c_SDL_RenderClear
     var SetRenderDrawColor: c_SDL_SetRenderDrawColor
+    var PollEvent: c_SDL_PollEvent
     var Delay: c_SDL_Delay
 
     fn __init__(inout self):
@@ -172,5 +176,7 @@ struct SDL:
         self.RenderPresent = SDL.get_function[c_SDL_RenderPresent]('SDL_RenderPresent')
         self.RenderClear = SDL.get_function[c_SDL_RenderClear]('SDL_RenderClear')
         self.SetRenderDrawColor = SDL.get_function[c_SDL_SetRenderDrawColor]('SDL_SetRenderDrawColor')
+
+        self.PollEvent = SDL.get_function[c_SDL_PollEvent]('SDL_PollEvent')
 
         self.Delay = SDL.get_function[c_SDL_Delay]('SDL_Delay')
