@@ -1,0 +1,57 @@
+from sys import ffi, info
+
+fn get_sdl_lib_path() -> StringLiteral:
+    if (info.os_is_linux()):
+        var lib_path = '/usr/lib/x86_64-linux-gnu/libSDL2.so'
+        try:
+            with open('/etc/os-release', 'r') as f:
+                let release = f.read()
+                if (release.find('Ubuntu') < 0):
+                    lib_path = '/usr/lib64/libSDL2.so'
+        except:
+            print("Can't detect Linux version")
+        return lib_path
+    if (info.os_is_macos()):
+        return '/opt/homebrew/lib/libSDL2.dylib'
+    return ""
+
+@register_passable('trivial')
+struct SDL_Window:
+    pass
+
+@register_passable('trivial')
+struct SDL_Renderer:
+    pass
+
+# SDL.h
+alias c_SDL_Init = fn(w: Int32) -> Int32
+alias c_SDL_Quit = fn() -> None
+
+# SDL_video.h
+alias c_SDL_CreateWindow = fn(DTypePointer[DType.int8], Int32, Int32, Int32, Int32, Int32) -> Pointer[SDL_Window]
+alias c_SDL_DestroyWindow = fn(Pointer[SDL_Window]) -> None
+
+# SDL_timer.h
+alias c_SDL_Delay = fn(Int32) -> UInt32
+
+# SDL_render.h
+alias c_SDL_CreateRenderer = fn(Pointer[SDL_Window], Int32, UInt32) -> Pointer[SDL_Renderer]
+alias c_SDL_RenderPresent = fn(s: Pointer[SDL_Renderer]) -> Int32
+alias c_SDL_RenderClear = fn(s: Pointer[SDL_Renderer]) -> Int32
+alias c_SDL_DestroyRenderer = fn(s: Pointer[SDL_Renderer]) -> None
+
+struct SDL:
+    var Init: c_SDL_Init
+    var CreateWindow: c_SDL_CreateWindow
+    var CreateRenderer: c_SDL_CreateRenderer
+    var RenderClear: c_SDL_RenderClear
+    var RenderPresent: c_SDL_RenderPresent
+    var Delay: c_SDL_Delay
+    var Quit: c_SDL_Quit
+    var DestroyWindow: c_SDL_DestroyWindow
+    var DestroyRenderer: c_SDL_DestroyRenderer
+
+    fn __init__(inout self):
+        print("Creating bindings for SDL")
+        let lib_path = get_sdl_lib_path()
+        let SDL = ffi.DLHandle(lib_path)
