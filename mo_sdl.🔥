@@ -23,6 +23,100 @@ struct SDL_Window:
 struct SDL_Renderer:
     pass
 
+@register_passable('trivial')
+struct Event:
+    var type: Int32
+    var _padding: SIMD[DType.uint8, 16]
+    var _padding2: Int64
+    var _padding3: Int64
+    def __init__() -> Event:
+        return Event { type: 0, _padding: 0, _padding2: 0, _padding3: 0 }
+
+    #fn __init__(inout self):
+    #    self.type = 0
+    #    self._padding = 0
+    #    self._padding2 = 0
+    #    self._padding3 = 0
+    #    self._padding4 = 0
+
+    def as_keyboard(self) -> Keyevent:
+        return Pointer.address_of(self).bitcast[Keyevent]().load()
+
+    def as_mousemotion(self) -> MouseMotionEvent:
+        return Pointer.address_of(self).bitcast[MouseMotionEvent]().load()
+
+    def as_mousebutton(self) -> MouseButtonEvent:
+        return Pointer.address_of(self).bitcast[MouseButtonEvent]().load()
+
+    def as_mousewheel(self) -> MouseWheelEvent:
+        return Pointer.address_of(self).bitcast[MouseWheelEvent]().load()
+
+@register_passable('trivial')
+struct Keyevent:
+    var type: UInt32
+    var timestamp: UInt32
+    var windowID: UInt32
+    var state: UInt8
+    var repeat: UInt8
+    var padding2: UInt8
+    var padding3: UInt8
+    var keysym: Keysym
+    
+    def __init__(inout self) -> Self:
+        self.timestamp = 0
+        self.windowID = 0
+        self.state = 0
+        self.repeat = 0
+        self.padding2 = 0
+        self.padding3 = 0
+        return self
+
+@register_passable('trivial')
+struct Keysym:
+    var scancode: Int32
+    var keycode: Int32
+    var mod: UInt16
+    var unused: UInt32
+
+@register_passable('trivial')
+struct MouseMotionEvent:
+    var type: UInt32
+    var timestamp: UInt32
+    var windowID: UInt32
+    var which: UInt32
+    var state: UInt32
+    var x: Int32
+    var y: Int32
+    var xrel: Int32
+    var yrel: Int32
+
+@register_passable('trivial')
+struct MouseButtonEvent:
+    var type: UInt32
+    var timestamp: UInt32
+    var windowID: UInt32
+    var which: UInt32
+    var button: UInt8
+    var state: UInt8
+    var clicks: UInt8
+    var padding1: UInt8
+    var x: Int32
+    var y: Int32
+
+@register_passable('trivial')
+struct MouseWheelEvent:
+    var type: UInt32
+    var timestamp: UInt32
+    var windowID: UInt32
+    var which: UInt32
+    var x: Int32
+    var y: Int32
+    var direction: UInt32
+    var preciseX: Float32
+    var preciseY: Float32
+    var mouseX: Int32
+    var mouseY: Int32
+
 # SDL.h
 alias c_SDL_Init = fn(w: Int32) -> Int32
 alias c_SDL_Quit = fn() -> None
