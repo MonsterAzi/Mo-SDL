@@ -167,6 +167,7 @@ struct SDL:
     var CreateWindow: c_SDL_CreateWindow
     var DestroyWindow: c_SDL_DestroyWindow
     var CreateRenderer: c_SDL_CreateRenderer
+    var RenderFillRect: c_SDL_RenderFillRect
     var RenderPresent: c_SDL_RenderPresent
     var RenderClear: c_SDL_RenderClear
     var SetRenderDrawColor: c_SDL_SetRenderDrawColor
@@ -185,6 +186,7 @@ struct SDL:
         self.DestroyWindow = SDL.get_function[c_SDL_DestroyWindow]('SDL_DestroyWindow')
 
         self.CreateRenderer = SDL.get_function[c_SDL_CreateRenderer]('SDL_CreateRenderer')
+        self.RenderFillRect = SDL.get_function[c_SDL_RenderFillRect]('SDL_RenderFillRect')
         self.RenderPresent = SDL.get_function[c_SDL_RenderPresent]('SDL_RenderPresent')
         self.RenderClear = SDL.get_function[c_SDL_RenderClear]('SDL_RenderClear')
         self.SetRenderDrawColor = SDL.get_function[c_SDL_SetRenderDrawColor]('SDL_SetRenderDrawColor')
