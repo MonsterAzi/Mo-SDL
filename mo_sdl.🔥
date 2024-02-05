@@ -30,6 +30,8 @@ struct SDL_Rect:
 struct SDL_Renderer:
     pass
 
+alias SDL_QUIT = 0x100
+
 alias SDL_KEYDOWN = 0x300
 alias SDL_KEYUP = 0x301
 
