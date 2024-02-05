@@ -194,3 +194,4 @@ struct SDL:
         self.PollEvent = SDL.get_function[c_SDL_PollEvent]('SDL_PollEvent')
 
         self.Delay = SDL.get_function[c_SDL_Delay]('SDL_Delay')
+        
