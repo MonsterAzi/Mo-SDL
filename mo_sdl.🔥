@@ -30,6 +30,14 @@ struct SDL_Rect:
 struct SDL_Renderer:
     pass
 
+alias SDL_KEYDOWN = 0x300
+alias SDL_KEYUP   = 0x301
+
+alias SDL_MOUSEMOTION     = 0x400
+alias SDL_MOUSEBUTTONDOWN = 0x401
+alias SDL_MOUSEBUTTONUP   = 0x402
+alias SDL_MOUSEWHEEL      = 0x403
+
 @register_passable('trivial')
 struct Event:
     var type: Int32
